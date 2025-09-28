@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MONEY 4 SALT</title>
+  <style>
+    :root{
+      --bg-dark:#0b0b0d;
+      --bg-mid:#0f1113;
+      --accent:#facc15;
+      --accent-2:#ffd86b;
+      --glass: rgba(255,255,255,0.03);
+      --panel-radius:18px;
+      --btn-radius:14px;
+      --telegram:#2AABEE;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: "Segoe UI", Inter, system-ui, -apple-system, "Helvetica Neue", Arial;
+      background: radial-gradient(900px 360px at 10% 12%, rgba(250,204,21,0.03), transparent),
+                  linear-gradient(180deg, var(--bg-dark), var(--bg-mid));
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow:hidden;
+    }
+
+    /* MATRIX CANVAS - fills background */
+    canvas#matrix {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      display: block;
+      filter: contrast(1.05) saturate(1.05) blur(0.6px);
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    /* Overlay subtle scanlines for texture */
+    .scanlines {
+      position: fixed; inset:0; z-index:1; pointer-events:none;
+      background-image: repeating-linear-gradient(
+        180deg,
+        rgba(0,0,0,0) 0 6px,
+        rgba(0,0,0,0.04) 6px 7px
+      );
+      mix-blend-mode: overlay;
+      opacity:0.5;
+    }
+
+    /* Neon-ish radial glow (top-left) */
+    .neon {
+      position: fixed; inset: auto  -120px -220px auto; z-index:1; pointer-events:none;
+      width:420px;height:420px;
+      background: radial-gradient(circle at 30% 30%, rgba(0,255,160,0.06), transparent 18%);
+      filter: blur(36px) contrast(1.1);
+      transform: rotate(8deg);
+      opacity:0.6;
+    }
+
+    /* Centering panel: sits in middle and uses half viewport height */
+    .wrap{
+      position:relative;
+      z-index:10;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .panel{
+      width:100%;
+      max-width:420px;
+      height:50vh; /* half of viewport height */
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: var(--panel-radius);
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:20px;
+      border:1px solid var(--glass);
+      box-shadow: 0 20px 60px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px) saturate(1.05);
+    }
+
+    /* Top logo only */
+    .brand{
+      display:flex;flex-direction:column;align-items:center;gap:8px;
+      margin-bottom:4px;
+    }
+    .brand img{
+      width:86px;height:86px;border-radius:16px;object-fit:contain;
+      box-shadow: 0 10px 26px rgba(250,204,21,0.14), inset 0 -6px 18px rgba(0,0,0,0.45);
+    }
+    .brand h1{
+      font-size:22px;color:var(--accent);letter-spacing:0.6px;margin-top:2px;
+      text-shadow:0 8px 22px rgba(250,204,21,0.06);
+      font-weight:800;
+    }
+
+    /* Buttons list (text-only inside buttons) */
+    .buttons{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      align-items:center;
+      padding: 0 6px;
+    }
+
+    .game-btn{
+      width:100%;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      justify-content:flex-start;
+      padding:14px 18px;
+      border-radius: var(--btn-radius);
+      text-decoration:none;
+      color: #071014;
+      font-weight:800;
+      font-size:16px;
+      letter-spacing:0.3px;
+      transform: translateZ(0);
+      border: none;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      transition: transform .18s cubic-bezier(.2,.9,.3,1), box-shadow .18s ease;
+      box-shadow: 0 8px 26px rgba(2,6,23,0.55), inset 0 -6px 14px rgba(0,0,0,0.25);
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    /* subtle gloss stripe */
+    .game-btn::before{
+      content:"";
+      position:absolute;left:-40%;top:-20%;width:80%;height:200%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+      transform: rotate(-18deg);
+      opacity:0.25;
+      transition: all 0.4s ease;
+      pointer-events:none;
+    }
+
+    .game-btn:hover{
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 18px 40px rgba(250,204,21,0.22), inset 0 -6px 18px rgba(0,0,0,0.35);
+    }
+    .game-btn:active{
+      transform: translateY(2px) scale(0.995);
+    }
+    .game-btn .ico{
+      display:inline-grid;place-items:center;
+      width:40px;height:40px;border-radius:10px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(255,255,255,0.05));
+      box-shadow: 0 6px 12px rgba(0,0,0,0.35), inset 0 -4px 8px rgba(255,255,255,0.03);
+      font-size:18px;
+    }
+
+    .game-btn .label{
+      display:flex;flex-direction:column;align-items:flex-start;
+      line-height:1;
+    }
+    .game-btn .label .title{
+      color:#071014;font-weight:900;font-size:15px;
+    }
+    .game-btn .label .sub{
+      color: rgba(7,16,20,0.6);font-size:12px;margin-top:3px;font-weight:700;
+    }
+
+    /* HELP button style (Telegram) */
+    .help-wrap{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      margin-top:6px;
+    }
+    .help-btn{
+      width:95%;
+      max-width:340px;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 16px;
+      border-radius:12px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:800;
+      font-size:15px;
+      background: linear-gradient(90deg, rgba(42,171,238,1), rgba(16,150,218,1));
+      box-shadow: 0 10px 26px rgba(42,171,238,0.12), inset 0 -4px 12px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .help-btn:hover{ transform: translateY(-4px); box-shadow: 0 18px 40px rgba(42,171,238,0.18); }
+    .help-btn .tg-icon{
+      width:40px;height:40px;border-radius:9px;background:rgba(255,255,255,0.06);
+      display:grid;place-items:center;font-size:18px;
+      box-shadow: inset 0 -3px 8px rgba(255,255,255,0.02);
+    }
+
+    .note{
+      margin-top:6px;font-size:12px;color:rgba(255,255,255,0.6);
+      text-align:center;
+    }
+
+    @media (max-width:420px){
+      .panel{padding:16px;height:54vh}
+      .brand img{width:72px;height:72px}
+      .brand h1{font-size:20px}
+      .game-btn{padding:12px 14px;font-size:15px}
+      .game-btn .ico{width:36px;height:36px;font-size:16px}
+      .help-btn{padding:10px 12px;font-size:14px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Matrix canvas & overlays -->
+  <canvas id="matrix" aria-hidden="true"></canvas>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="neon" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="panel" role="region" aria-label="MONEY 4 SALT launcher">
+      <div class="brand" aria-hidden="false">
+        <img src="logo.png" alt="MONEY 4 SALT logo" onerror="this.style.display='none'">
+        <h1>MONEY 4 SALT</h1>
+      </div>
+
+      <nav class="buttons" aria-label="Game links">
+        <a class="game-btn" href="prediction/mines.html" aria-label="Open Mines Hack">
+          <div class="ico" aria-hidden="true">💣</div>
+          <div class="label">
+            <div class="title">Mines Hack</div>
+            <div class="sub"></div>
+          </div>
+        </a>
+
+        <a class="game-btn" href="prediction/wingo.html" aria-label="Open Number Hack">
+          <div class="ico" aria-hidden="true">🎯</div>
+          <div class="label">
+            <div class="title">Number Hack</div>
+            <div class="sub"></div>
+          </div>
+        </a>
+      </nav>
+
+      <div class="note">if you have any doubt then contact me through help supprt bot.</div>
+
+      <!-- HELP SUPPORT button (Telegram) -->
+      <!-- Replace 'YourHelpBot' in the href below with your actual Telegram bot username (without @) -->
+      <div class="help-wrap">
+        <a class="help-btn" href="https://t.me/money4salt_bot" target="_blank" rel="noopener noreferrer" aria-label="Open Help Bot on Telegram">
+          <div class="tg-icon" aria-hidden="true">
+            <!-- Telegram paper-plane SVG (keeps it crisp) -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 2L2 12.5L8.5 15.5L11 22L12 16.5L20 10L22 2Z" fill="white" opacity="0.95"/>
+            </svg>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1">
+            <div style="font-weight:900;font-size:15px">HELP SUPPORT</div>
+            <div style="font-size:12px;opacity:0.9">Contact via Telegram</div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Matrix binary rain - lightweight, adaptive density for mobile
+    (function(){
+      const canvas = document.getElementById('matrix');
+      const ctx = canvas.getContext('2d');
+      let width, height, cols, fontSize, drops, densityFactor;
+
+      function setup(){
+        width = canvas.width = innerWidth;
+        height = canvas.height = innerHeight;
+        fontSize = Math.max(10, Math.floor(width / 80));
+        cols = Math.floor(width / fontSize);
+        densityFactor = (width < 420) ? 0.45 : (width < 768 ? 0.7 : 1);
+        cols = Math.floor(cols * densityFactor);
+        drops = new Array(cols).fill(1);
+        ctx.font = fontSize + 'px monospace';
+      }
+
+      function draw(){
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+        ctx.fillRect(0, 0, width, height);
+
+        const gradient = ctx.createLinearGradient(0,0,0,height);
+        gradient.addColorStop(0, 'rgba(0,255,180,0.95)');
+        gradient.addColorStop(0.6, 'rgba(0,255,140,0.6)');
+        gradient.addColorStop(1, 'rgba(0,255,120,0.4)');
+        ctx.fillStyle = gradient;
+
+        for(let i = 0; i < cols; i++){
+          const x = i * fontSize;
+          const y = drops[i] * fontSize;
+          const chars = '01αβχδ0123456789ABCDEF';
+          const text = chars.charAt(Math.floor(Math.random() * chars.length));
+          ctx.fillText(text, x, y);
+          if(y > height + Math.random() * 10000) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+
+      let rafId;
+      function loop(){
+        draw();
+        rafId = requestAnimationFrame(loop);
+      }
+
+      function init(){
+        cancelAnimationFrame(rafId);
+        setup();
+        ctx.fillStyle = 'rgba(0,0,0,1)'; ctx.fillRect(0,0,width,height);
+        loop();
+      }
+      init();
+
+      let resizeTO;
+      addEventListener('resize', () => {
+        clearTimeout(resizeTO);
+        resizeTO = setTimeout(init, 250);
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if(document.hidden) cancelAnimationFrame(rafId);
+        else init();
+      });
+
+      if (navigator.deviceMemory && navigator.deviceMemory < 2) {
+        densityFactor = 0.45;
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>

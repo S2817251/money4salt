@@ -1,0 +1,99 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+  color: #fff;
+}
+
+.container {
+  padding: 15px;
+  text-align: center;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.logo-container img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #facc15;
+}
+
+.logo-container h1 {
+  font-size: 24px;
+  color: #facc15;
+  text-shadow: 0 0 8px #facc15;
+}
+
+.game-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.game-card {
+  width: 95%;           /* Mobile screen me fit */
+  max-width: 320px;
+  background: linear-gradient(135deg, #1f1f1f, #2a2a2a);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(0, 255, 255, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.game-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 14px rgba(0, 255, 255, 0.2);
+}
+
+.game-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.game-card span {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* LEVEL CHART card */
+.level-card {
+  background: #000000;
+  padding: 10px;
+  text-align: center;
+  border-radius: 12px;
+  width: 95%;        /* Fit mobile screen */
+  max-width: 320px;
+  margin: 10px auto;
+}
+
+.level-card img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;   /* Mobile-friendly height */
+  object-fit: contain;
+}
+
+.level-card span {
+  font-weight: bold;
+  font-size: 1rem;    /* Mobile-optimized */
+  display: block;
+  margin-top: 5px;
+}
