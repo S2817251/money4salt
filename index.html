@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>money4salt</title>
+  <style>
+    :root{
+      --bg-1:#020306;
+      --bg-2:#05101a;
+      --card-1:#071018;
+      --card-2:#0b1a21;
+      --muted:#98a6ad;
+      --accent:#00ff88;
+      --accent-2:#00d68a;
+      --glass: rgba(255,255,255,0.03);
+      --radius:16px;
+      --maxw:520px;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: radial-gradient(800px 300px at 8% 12%, rgba(0,255,160,0.03), transparent),
+                  linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color: #e8fff0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      overflow:hidden;
+    }
+
+    /* Matrix & overlays */
+    .matrix{position:fixed;inset:0;z-index:0;pointer-events:none}
+    canvas{width:100%;height:100%;display:block}
+    .scan{position:fixed;inset:0;z-index:1;pointer-events:none;
+      background-image: repeating-linear-gradient(
+        180deg,
+        rgba(0,0,0,0) 0 6px,
+        rgba(0,0,0,0.04) 6px 7px
+      );
+      mix-blend-mode:overlay; opacity:0.45;
+    }
+    .neon{position:fixed; inset:auto -120px -220px auto; z-index:1; pointer-events:none;
+      width:420px;height:420px; background: radial-gradient(circle at 30% 30%, rgba(0,255,160,0.06), transparent 18%);
+      filter: blur(30px) contrast(1.05); opacity:0.6; transform:rotate(10deg);
+    }
+
+    /* Container */
+    .wrap{position:relative;z-index:2;width:100%;max-width:var(--maxw)}
+    .card{
+      background: linear-gradient(180deg,var(--card-1),var(--card-2));
+      border-radius:var(--radius);
+      padding:16px;
+      border: 1px solid var(--glass);
+      box-shadow: 0 24px 80px rgba(2,6,23,0.7), inset 0 -4px 12px rgba(255,255,255,0.01);
+      backdrop-filter: blur(6px);
+    }
+
+    /* Top */
+    .top{display:flex;gap:14px;align-items:center}
+    .logo{
+      width:84px;height:84px;border-radius:14px;overflow:hidden;flex-shrink:0;
+      background: linear-gradient(135deg,#063b36,#003b31);
+      display:grid;place-items:center;border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+    }
+    .logo img{width:74px;height:74px;object-fit:cover;display:block}
+    .title{flex:1}
+    .brand{font-weight:900;font-size:18px;letter-spacing:0.6px;color:#dfffe8}
+    .subtitle{font-size:13px;color:var(--muted);margin-top:6px}
+
+    /* Links/buttons */
+    .links{margin-top:14px;display:grid;grid-template-columns:1fr;gap:12px}
+    .btn{
+      display:flex;gap:12px;align-items:center;padding:14px;border-radius:12px;text-decoration:none;color:inherit;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.02);
+      font-weight:800;transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+    }
+    .btn:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 22px 56px rgba(0,0,0,0.65);
+      background: linear-gradient(180deg, rgba(0,255,160,0.03), rgba(255,255,255,0.02));
+    }
+
+    .btn .icon{
+      width:56px;height:56px;border-radius:12px;overflow:hidden;flex-shrink:0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(255,255,255,0.02));
+      display:grid;place-items:center;border:1px solid rgba(255,255,255,0.02);
+      box-shadow: inset 0 -6px 14px rgba(255,255,255,0.02);
+    }
+    .btn .icon img{width:100%;height:100%;object-fit:cover;display:block}
+    .btn .label{font-size:15px;color:#ecfff7}
+    .btn h3{margin:0;font-size:14px;line-height:1.05}
+
+    /* accent primary download button with stronger tone */
+    .btn.download{
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#021014;border:none;
+      box-shadow: 0 18px 50px rgba(0,255,160,0.08), inset 0 -6px 18px rgba(0,0,0,0.2);
+    }
+    .btn.download:hover{ transform: translateY(-6px) scale(1.01); box-shadow:0 26px 70px rgba(0,255,160,0.12) }
+
+    .footer{margin-top:14px;text-align:center;color:rgba(255,255,255,0.08);font-size:12px}
+
+    /* Responsive tweaks */
+    @media(max-width:520px){
+      .wrap{padding:6px}
+      .logo{width:64px;height:64px}
+      .btn .icon{width:48px;height:48px}
+      .btn{padding:12px}
+    }
+  </style>
+</head>
+<body>
+  <!-- visual layers -->
+  <div class="matrix"><canvas id="matrix"></canvas></div>
+  <div class="scan" aria-hidden="true"></div>
+  <div class="neon" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="card" role="main" aria-label="Money4Salt links">
+      <div class="top">
+        <div class="logo"><img src="logo.png" alt="logo"></div>
+        <div class="title">
+          <div class="brand">MONEY 4 SALT</div>
+          <div class="subtitle">Thanks for visit</div>
+        </div>
+      </div>
+
+      <div class="links" role="navigation" aria-label="Quick links">
+        <!-- kept exact original hrefs and file paths -->
+      
+        <a class="btn" href="https://t.me/+QM9ZM3XiiENjNjZl" target="_blank" rel="noopener noreferrer">
+          <div class="icon"><img src="/IMAGES/telegram.png" alt="telegram"></div>
+          <div class="label"><h3>TELEGRAM CHANNEL</h3></div>
+        </a>
+
+        <a class="btn" href="https://t.me/Mines_Prediction" target="_blank" rel="noopener noreferrer">
+          <div class="icon"><img src="/IMAGES/mineslogo.png" alt="telegram"></div>
+          <div class="label"><h3>MINES PREDICTION CHANNEL</h3></div>
+        </a>
+
+        <a class="btn" href="gamelinks.html" target="_blank" rel="noopener noreferrer">
+          <div class="icon"><img src="/IMAGES/cp.png" alt="game logo"></div>
+          <div class="label"><h3>GAME LINKS</h3></div>
+        </a>
+
+        <a class="btn" href="https://m4s-predicter.netlify.app/" target="_blank" rel="noopener noreferrer">
+          <div class="icon"><img src="logo.png" alt="register"></div>
+          <div class="label"><h3>PREDICTER WEBSITE</h3></div>
+        </a>
+
+        <a class="btn" href="/app.apk" target="_blank" rel="noopener noreferrer">
+          <div class="icon"><img src="/IMAGES/apk.png" alt="apk"></div>
+          <div class="label"><h3>PREDICTER APK (DOWNLOAD)</h3></div>
+        </a>
+      </div>
+
+      <div class="footer"></div>
+    </div>
+  </div>
+
+  <script>
+    // Matrix rain - improved adaptive density + lighter chars for premium look
+    (function(){
+      const canvas = document.getElementById('matrix');
+      const ctx = canvas.getContext('2d');
+      let W, H, fontSize, cols, drops, density;
+
+      function setup(){
+        W = canvas.width = innerWidth;
+        H = canvas.height = innerHeight;
+        // font adapt
+        fontSize = Math.max(10, Math.floor(W / 90));
+        density = (W < 420) ? 0.45 : (W < 900 ? 0.7 : 1);
+        cols = Math.floor((W / fontSize) * density);
+        drops = new Array(cols).fill(0).map(()=> Math.random() * H / fontSize);
+        ctx.font = fontSize + 'px monospace';
+        ctx.textBaseline = 'top';
+      }
+
+      const palette = ['rgba(0,255,160,0.95)','rgba(0,255,160,0.7)','rgba(0,255,200,0.45)'];
+      function draw(){
+        // fade
+        ctx.fillStyle = 'rgba(0,0,0,0.12)';
+        ctx.fillRect(0,0,W,H);
+
+        for(let i=0;i<cols;i++){
+          const x = i * fontSize;
+          const y = Math.floor(drops[i]) * fontSize;
+          // choose char
+          const chars = '01αβχδ0123456789ABCDEF';
+          const ch = chars.charAt(Math.floor(Math.random() * chars.length));
+          // softer glow by randomizing alpha
+          ctx.fillStyle = palette[Math.floor(Math.random() * palette.length)];
+          ctx.fillText(ch, x, y);
+          // reset occasionally
+          if (y > H && Math.random() > 0.975) drops[i] = 0;
+          drops[i] += 0.9 + Math.random() * 0.8;
+        }
+      }
+
+      let raf;
+      function loop(){
+        draw();
+        raf = requestAnimationFrame(loop);
+      }
+
+      function init(){
+        cancelAnimationFrame(raf);
+        setup();
+        // initial clear
+        ctx.fillStyle='rgba(0,0,0,1)';
+        ctx.fillRect(0,0,W,H);
+        loop();
+      }
+
+      init();
+      let resizeTO;
+      window.addEventListener('resize', ()=>{ clearTimeout(resizeTO); resizeTO = setTimeout(init, 220); });
+      document.addEventListener('visibilitychange', ()=> { if(document.hidden) cancelAnimationFrame(raf); else init(); });
+
+      // reduce density on low-memory devices
+      if(navigator.deviceMemory && navigator.deviceMemory < 2){ density = 0.45; init(); }
+    })();
+  </script>
+</body>
+</html>
