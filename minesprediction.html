@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Mines Prediction — Mobile</title>
+<title>Mines Prediction</title>
 <style>
   body{margin:0;padding:0;font-family:Inter,sans-serif;background:#0f1724;color:#e6eef6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
   .container{max-width:480px;margin:0 auto;padding:16px;}
@@ -12,12 +12,12 @@
   .header-box{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0b1220,#131d30);padding:14px;border-radius:18px;margin-top:16px;box-shadow:0 6px 20px rgba(0,0,0,0.4);}
   .logo{width:100px;height:100px;border-radius:14px;background:linear-gradient(135deg,#ffb86b,#ff7aa2);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#071022;box-shadow:0 6px 24px rgba(0,0,0,0.6);cursor:pointer;}
   .header-text{display:flex;flex-direction:column;}
-  .header-text h1{margin:0;font-size:20px;font-weight:700;}
+  .header-text h2{margin:0;font-size:20px;font-weight:700;}
   .header-text p{margin:0;font-size:14px;color:#9aa7b2;}
 
   /* Voice Player + Info Box */
   .voice-info-box{background:linear-gradient(135deg,#0b1220,#131d30);padding:16px;border-radius:16px;margin-top:16px;box-shadow:0 6px 20px rgba(0,0,0,0.5);}
-  .voice-player{text-align:center;}
+  .voice-player{text-align:center;margin-bottom:16px;}
   .voice-btn{padding:12px 24px;background:linear-gradient(90deg,#ffb86b,#ff7aa2);border:none;border-radius:24px;color:#071022;font-weight:700;cursor:pointer;box-shadow:0 6px 14px rgba(255,184,107,0.3);transition:transform .2s ease;}
   .voice-btn:hover{transform:scale(1.05);}
   .voice-text{margin-top:12px;font-size:14px;text-align:center;color:#e6eef6;}
@@ -42,16 +42,14 @@
   .overlay.active{opacity:1;pointer-events:auto;}
   .overlay-content{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:80%;}
   .overlay img, .overlay video{max-width:90%;max-height:100%;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.7);}
-  .overlay img, .overlay video{-webkit-user-drag: none; user-select: none; pointer-events: none;}
   .overlay-controls{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:8px;}
   .overlay-btn{padding:6px 12px;background:rgba(255,255,255,0.1);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s ease;}
   .overlay-btn:hover{background:rgba(255,255,255,0.2);}
   .overlay-index{color:#fff;font-weight:600;font-size:16px;}
-
   .close-btn{position:absolute;top:24px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);backdrop-filter:blur(4px);border:none;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.5);transition:background .2s ease;z-index:1000;}
   .close-btn:hover{background:rgba(255,255,255,0.2);}
 
-  /* Investment Plan + Videos Box */
+  /* Content Box */
   .content-box{background:linear-gradient(135deg,#0b1220,#131d30);border-radius:16px;padding:16px;margin-top:28px;box-shadow:0 6px 20px rgba(0,0,0,0.5);}
   .investment-plan-section{margin-bottom:20px;}
   .investment-plan-section h2{text-align:center;color:#ffb86b;margin-bottom:14px;}
@@ -68,7 +66,7 @@
   .footer-btn{width:100%;text-align:center;padding:12px 0;border-radius:12px;text-decoration:none;font-weight:700;background:linear-gradient(90deg,#ffb86b,#ff7aa2);color:#071022;box-shadow:0 6px 14px rgba(255,184,107,0.3);transition:transform .2s ease, box-shadow .2s ease;cursor:pointer;}
   .footer-btn:hover{transform:scale(1.05);box-shadow:0 8px 20px rgba(255,184,107,0.5);}
 
-  /* Footer + Disclaimer */
+  /* Footer */
   .footer-box{display:flex;justify-content:space-between;align-items:center;margin-top:28px;background:linear-gradient(135deg,#0b1220,#131d30);padding:12px 16px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.5);}
   .footer-text{font-size:12px;color:#9aa7b2;}
   .disclaimer-btn{padding:6px 12px;border:none;border-radius:8px;cursor:pointer;background:#334155;color:#fff;font-weight:600;transition:background .2s ease;}
@@ -78,97 +76,88 @@
 <body>
 <div class="container">
 
- <!-- Header -->
-<div class="header-box">
-  <img src="/IMAGES/mineslogo.png" class="logo" alt="mines Logo">
-  <div class="header-text">
-    <h2>Mines Prediction</h2>
-    <p>Full process and details</p>
-  </div>
-</div>
-
-<!-- Voice Player + Info -->
-<div class="voice-info-box">
-  <div class="voice-player">
-    <audio id="voiceMsg" src="/voice.mp3"></audio>
-    <button class="voice-btn" id="voiceBtn">▶ Play Voice Message</button>
-  </div>
-  <div class="voice-text">Listen full audio for good experience</div>
-</div>
-
-<!-- Games Section -->
-<div class="games-section">
-  <h2>THE PREDICTION WILL WORK ONLY ON THE GAMES GIVEN BELOW 👇</h2>
-  <div class="game-list">
-    <div class="game-card" data-img="/IMAGES/51gamemines.png">
-      <div class="game-item">
-        <img src="/IMAGES/51gamelogo.png" alt="51 Game Logo"><span>51 Game</span>
-      </div>
-      <div class="btn-group">
-        <a href="https://www.zndvkt51.com/#/register?invitationCode=75516113971" class="btn register">Register</a>
-        <button class="btn howto" data-img="/IMAGES/51gamemines.png">How to Follow</button>
-      </div>
+  <!-- Header -->
+  <div class="header-box">
+    <img src="/IMAGES/mineslogo.png" class="logo" alt="Mines Logo">
+    <div class="header-text">
+      <h2>Mines Prediction</h2>
+      <p>Full process and details</p>
     </div>
+  </div>
 
-    <div class="game-card" data-img="/IMAGES/dgclubmines.png">
-      <div class="game-item">
-        <img src="/IMAGES/dgclublogo.png" alt="DG Club Logo"><span>DG Club</span>
-      </div>
-      <div class="btn-group">
-        <a href="http://www.dgclub.run/#/register?invitationCode=444621425924" class="btn register">Register</a>
-        <button class="btn howto" data-img="/IMAGES/dgclubmines.png">How to Follow</button>
-      </div>
+  <!-- Voice Player (2 buttons) -->
+  <div class="voice-info-box">
+    <div class="voice-player">
+      <audio id="voiceEng" src="/audio/english.mp3"></audio>
+      <button class="voice-btn" id="voiceBtnEng">▶ Play Voice (English)</button>
     </div>
+    <div class="voice-player">
+      <audio id="voiceHin" src="/audio/hindi.mp3"></audio>
+      <button class="voice-btn" id="voiceBtnHin">▶ Play Voice (Hindi)</button>
+    </div>
+    <div class="voice-text">Listen to both audios for better understanding</div>
+  </div>
 
-    <div class="game-card" data-img="/IMAGES/rajagamemines.png">
-      <div class="game-item">
-        <img src="/IMAGES/rajagamelogo.png" alt="Raja Game Logo"><span>Raja Game</span>
+  <!-- Games Section -->
+  <div class="games-section">
+    <h2>MY FAVOURITE GAME 👇</h2>
+    <div class="game-list">
+      <div class="game-card">
+        <div class="game-item">
+          <img src="/IMAGES/51gamelogo.png" alt="51 Game Logo"><span>51 Game</span>
+        </div>
+        <div class="btn-group">
+          <a href="https://www.zndvkt51.com/#/register?invitationCode=75516113971" class="btn register">Register</a>
+          <button class="btn howto" data-img="/IMAGES/51gamemines.png">How to Follow</button>
+        </div>
       </div>
-      <div class="btn-group">
-        <a href="https://www.rajastake.com/#/register?invitationCode=55424116012" class="btn register">Register</a>
-        <button class="btn howto" data-img="/IMAGES/rajagamemines.png">How to Follow</button>
+
+      <div class="game-card">
+        <div class="game-item">
+          <img src="/IMAGES/rajagamelogo.png" alt="Raja Game Logo"><span>Raja Game</span>
+        </div>
+        <div class="btn-group">
+          <a href="https://www.rajastake.com/#/register?invitationCode=55424116012" class="btn register">Register</a>
+          <button class="btn howto" data-img="/IMAGES/rajagamemines.png">How to Follow</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Content Box: Investment + Videos -->
-<div class="content-box">
-  <!-- Investment Plan Gallery -->
-  <section class="investment-plan-section">
-    <h2>Best Investment Plan</h2>
-    <div class="gallery">
-      <img src="/LEVEL CHART/10.png" alt="Level 10">
-      <img src="/LEVEL CHART/20.png" alt="Level 20">
-      <img src="/LEVEL CHART/50.png" alt="Level 50">
-      <img src="/LEVEL CHART/100.png" alt="Level 100">
-    </div>
-  </section>
+  <!-- Investment & Videos -->
+  <div class="content-box">
+    <section class="investment-plan-section">
+      <h2>Best Investment Plan</h2>
+      <div class="gallery">
+        <img src="/LEVEL CHART/10.png" alt="Level 10">
+        <img src="/LEVEL CHART/20.png" alt="Level 20">
+        <img src="/LEVEL CHART/50.png" alt="Level 50">
+        <img src="/LEVEL CHART/100.png" alt="Level 100">
+      </div>
+    </section>
 
-  <!-- Videos Section -->
-  <section class="videos-section">
-    <h2>Videos</h2>
-    <div class="videos">
-      <video src="/videos/video1.mp4" muted></video>
-      <video src="/videos/video1.mp4" muted></video>
-      <video src="/videos/video1.mp4" muted></video>
-    </div>
-  </section>
-</div>
+    <section class="videos-section">
+      <h2>Videos</h2>
+      <div class="videos">
+        <video src="/videos/video1.mp4" muted></video>
+        <video src="/videos/video1.mp4" muted></video>
+        <video src="/videos/video1.mp4" muted></video>
+      </div>
+    </section>
+  </div>
 
-<!-- Buttons Section -->
-<div class="buttons-section">
-  <a href="https://t.me/+QM9ZM3XiiENjNjZl" target="_blank" class="footer-btn">MAIN CHANNEL</a>
-  <a href="https://t.me/Mines_Prediction" target="_blank" class="footer-btn">MINES PREDICTION CHANNEL</a>
-  <a href="https://t.me/Money4salt_bot" target="_blank" class="footer-btn">HELP SUPPORT</a>
-</div>
+  <!-- Buttons Section -->
+  <div class="buttons-section">
+    <a href="https://t.me/+QM9ZM3XiiENjNjZl" target="_blank" class="footer-btn">MAIN CHANNEL</a>
+    <a href="https://t.me/Mines_Prediction" target="_blank" class="footer-btn">MINES PREDICTION CHANNEL</a>
+    <a href="https://t.me/Money4salt_bot" target="_blank" class="footer-btn">HELP SUPPORT</a>
+  </div>
 
-<!-- Footer + Disclaimer -->
-<div class="footer-box">
-  <div class="footer-text">© 2025 M4S | All rights reserved</div>
-  <button class="disclaimer-btn" id="disclaimerBtn">Disclaimer</button>
-</div>
-
+  <!-- Footer -->
+  <div class="footer-box">
+    <div class="footer-text">© 2025 M4S | All rights reserved</div>
+    <button class="disclaimer-btn" id="disclaimerBtn">Disclaimer</button>
+  </div>
 </div>
 
 <!-- Overlay -->
@@ -185,125 +174,101 @@
   </div>
   <div id="disclaimerText" style="display:none;color:#fff;text-align:center;padding:20px;max-width:90%;line-height:1.5;">
     <h2>Disclaimer</h2>
-    <p>
-      All predictions, strategies, and information provided here are for educational purposes only. 
-      We do not guarantee any results. Users engage at their own risk. This channel is not responsible for any financial loss.
-    </p>
+    <p>All predictions, strategies, and information provided here are for educational purposes only. 
+    We do not guarantee any results. Users engage at their own risk. This channel is not responsible for any financial loss.</p>
   </div>
 </div>
 
 <script>
-const overlay = document.getElementById('overlay');
-const overlayImg = document.getElementById('overlayImg');
-const overlayVideo = document.getElementById('overlayVideo');
-const closeBtn = document.getElementById('closeBtn');
-const disclaimerBtn = document.getElementById('disclaimerBtn');
-const disclaimerText = document.getElementById('disclaimerText');
-const overlayIndex = document.getElementById('overlayIndex');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
+document.addEventListener('contextmenu', e=>e.preventDefault());
+document.addEventListener('dragstart', e=>e.preventDefault());
 
-const voiceBtn = document.getElementById('voiceBtn');
-const voiceMsg = document.getElementById('voiceMsg');
+const overlay=document.getElementById('overlay');
+const overlayImg=document.getElementById('overlayImg');
+const overlayVideo=document.getElementById('overlayVideo');
+const closeBtn=document.getElementById('closeBtn');
+const disclaimerBtn=document.getElementById('disclaimerBtn');
+const disclaimerText=document.getElementById('disclaimerText');
+const overlayIndex=document.getElementById('overlayIndex');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
 
-let currentIndex = 0;
-let currentArray = []; // will hold images or videos
+const voiceEng=document.getElementById('voiceEng');
+const voiceHin=document.getElementById('voiceHin');
+const voiceBtnEng=document.getElementById('voiceBtnEng');
+const voiceBtnHin=document.getElementById('voiceBtnHin');
 
-// Disable right click, drag, download
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('dragstart', e => e.preventDefault());
+let currentArray=[],currentIndex=0,currentType='';
 
-// Voice Button Toggle
-voiceBtn.addEventListener('click', ()=>{
-  if(voiceMsg.paused){
-    voiceMsg.play();
-    voiceBtn.textContent='⏸ Pause Voice Message';
-  }else{
-    voiceMsg.pause();
-    voiceBtn.textContent='▶ Play Voice Message';
-  }
-});
+// Voice Buttons
+function setupVoice(btn,audio,label){
+  btn.addEventListener('click',()=>{
+    if(audio.paused){
+      voiceEng.pause();voiceHin.pause();
+      voiceBtnEng.textContent='▶ Play Voice (English)';
+      voiceBtnHin.textContent='▶ Play Voice (Hindi)';
+      audio.play();
+      btn.textContent='⏸ Pause '+label;
+    }else{
+      audio.pause();
+      btn.textContent='▶ Play '+label;
+    }
+  });
+}
+setupVoice(voiceBtnEng,voiceEng,'Voice (English)');
+setupVoice(voiceBtnHin,voiceHin,'Voice (Hindi)');
 
-// Utility function to open overlay
-function openOverlay(array, index, type){
-  currentArray = array;
-  currentIndex = index;
-  updateOverlay(type);
+// Overlay
+function openOverlay(arr,index,type){
+  currentArray=arr;currentIndex=index;currentType=type;
+  showOverlayItem();
   overlay.classList.add('active');
 }
-
-// Update overlay content
-function updateOverlay(type){
+function showOverlayItem(){
   overlayImg.style.display='none';
   overlayVideo.style.display='none';
   disclaimerText.style.display='none';
-
-  const item = currentArray[currentIndex];
-  overlayIndex.textContent = (currentIndex+1)+' / '+currentArray.length;
-
-  if(type==='image'){
-    overlayImg.src = item;
+  overlayIndex.textContent=(currentIndex+1)+' / '+currentArray.length;
+  const item=currentArray[currentIndex];
+  if(currentType==='image'){
+    overlayImg.src=item;
     overlayImg.style.display='block';
-  }else if(type==='video'){
-    overlayVideo.src = item;
+  }else{
+    overlayVideo.src=item;
     overlayVideo.style.display='block';
     overlayVideo.play();
   }
 }
-
-// Prev/Next buttons
-prevBtn.addEventListener('click', ()=>{
-  currentIndex = (currentIndex-1+currentArray.length)%currentArray.length;
-  const type = currentArray===galleryVideos ? 'video' : 'image';
-  updateOverlay(type);
-});
-nextBtn.addEventListener('click', ()=>{
-  currentIndex = (currentIndex+1)%currentArray.length;
-  const type = currentArray===galleryVideos ? 'video' : 'image';
-  updateOverlay(type);
-});
-
-// Close overlay
-closeBtn.addEventListener('click', closeOverlay);
-overlay.addEventListener('click', e=>{if(e.target===overlay) closeOverlay();});
-function closeOverlay(){
-  overlay.classList.remove('active');
-  overlayImg.style.display='none';
-  overlayVideo.pause();
-  overlayVideo.style.display='none';
-  overlayVideo.src='';
-  disclaimerText.style.display='none';
-}
+prevBtn.onclick=()=>{currentIndex=(currentIndex-1+currentArray.length)%currentArray.length;showOverlayItem();}
+nextBtn.onclick=()=>{currentIndex=(currentIndex+1)%currentArray.length;showOverlayItem();}
+closeBtn.onclick=()=>{overlay.classList.remove('active');overlayVideo.pause();};
+overlay.onclick=e=>{if(e.target===overlay)overlay.classList.remove('active');};
 
 // Disclaimer
-disclaimerBtn.addEventListener('click',()=>{
+disclaimerBtn.onclick=()=>{
   overlayImg.style.display='none';
   overlayVideo.style.display='none';
   disclaimerText.style.display='block';
   overlay.classList.add('active');
-});
+};
 
-// Collect gallery images & videos
-const galleryImages = Array.from(document.querySelectorAll('.gallery img')).map(img=>img.src);
-const galleryVideos = Array.from(document.querySelectorAll('.videos video')).map(video=>video.src);
+// Image Gallery + Videos
+const galleryImages=Array.from(document.querySelectorAll('.gallery img')).map(i=>i.src);
+const galleryVideos=Array.from(document.querySelectorAll('.videos video')).map(v=>v.src);
 
-// Image click
 document.querySelectorAll('.gallery img').forEach((img,i)=>{
-  img.addEventListener('click',()=>openOverlay(galleryImages,i,'image'));
+  img.onclick=()=>openOverlay(galleryImages,i,'image');
+});
+document.querySelectorAll('.videos video').forEach((vid,i)=>{
+  vid.onclick=()=>openOverlay(galleryVideos,i,'video');
 });
 
-// HowTo click
+// Fix How-to buttons
 document.querySelectorAll('.howto').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const imgSrc = btn.dataset.img;
-    const index = galleryImages.indexOf(imgSrc);
-    openOverlay(galleryImages,index>=0?index:0,'image');
-  });
-});
-
-// Video click
-document.querySelectorAll('.videos video').forEach((video,i)=>{
-  video.addEventListener('click',()=>openOverlay(galleryVideos,i,'video'));
+  btn.onclick=()=>{
+    const imgSrc=btn.dataset.img;
+    openOverlay([imgSrc],0,'image');
+  };
 });
 </script>
 </body>
