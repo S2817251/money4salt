@@ -1,0 +1,332 @@
+
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Game Links Hub</title>
+
+<style>
+:root{
+  --bg:#070d1f;
+  --card:#0c1533;
+  --text:#e6eeff;
+  --muted:#9aa7ff;
+  --accent:#00e0c6;
+  --radius:16px;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:linear-gradient(180deg,#050a1a,#0a1240);
+  color:var(--text);
+}
+
+.container{
+  max-width:520px;
+  margin:auto;
+  padding:14px;
+}
+
+header{
+  text-align:center;
+  margin-bottom:16px;
+}
+header h1{
+  margin:6px 0 4px;
+  font-size:20px;
+}
+header p{
+  margin:0;
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* animated divider */
+.divider{
+  height:8px;
+  margin:18px 0;
+  border-radius:999px;
+  overflow:hidden;
+}
+.divider span{
+  display:block;
+  height:100%;
+  width:40%;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  animation:slide 4s linear infinite;
+}
+@keyframes slide{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(300%)}
+}
+
+/* game card */
+.game{
+  background:var(--card);
+  border-radius:var(--radius);
+  margin-bottom:22px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+
+/* image wrapper with blur bg */
+.game a.image{
+  position:relative;
+  display:block;
+  width:100%;
+  height:360px;
+  overflow:hidden;
+  background:#000;
+}
+
+/* blurred background */
+.game a.image::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:var(--img);
+  background-size:cover;
+  background-position:center;
+  filter:blur(20px);
+  transform:scale(1.15);
+  opacity:.85;
+}
+
+/* main poster image */
+.game img{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+/* content */
+.content{
+  padding:14px;
+}
+.content h2{
+  margin:0 0 10px;
+  font-size:18px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+td{
+  padding:7px 0;
+  border-bottom:1px dashed rgba(255,255,255,.1);
+}
+td.label{
+  color:var(--muted);
+}
+td.value{
+  text-align:right;
+  font-weight:600;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+.btn{
+  flex:1;
+  text-align:center;
+  padding:12px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:15px;
+  text-decoration:none;
+}
+.btn.primary{
+  background:var(--accent);
+  color:#042;
+}
+.btn.secondary{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.2);
+  color:var(--text);
+}
+
+footer{
+  text-align:center;
+  margin:26px 0 10px;
+}
+footer button{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.25);
+  color:var(--muted);
+  padding:10px 16px;
+  border-radius:12px;
+}
+
+/* modal */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+.modal.active{display:flex}
+.modal .box{
+  background:#050a24;
+  border-radius:16px;
+  padding:18px;
+  max-width:520px;
+}
+.modal h3{margin-top:0}
+.modal p{
+  font-size:14px;
+  color:#cdd7ff;
+  line-height:1.5;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <h1>Welcome to Game Links Page</h1>
+  <p></p>
+</header>
+
+<div class="divider"><span></span></div>
+
+
+<!-- GAME 1 -->
+<div class="game">
+  <a class="image"
+     style="--img:url('rajagamepage.png')"
+     href="https://www.rajaparty2.com/#/register?invitationCode=55424116012"
+     target="_blank">
+    <img src="rajagamepage.png" alt="RAJA GAME">
+  </a>
+
+  <div class="content">
+    <h2>RAJA GAME</h2>
+    <table>
+      <tr><td class="label">Invitation Code</td><td class="value">55424116012</td></tr>
+      <tr><td class="label">Signup Bonus</td><td class="value">Upto ₹40</td></tr>
+      <tr><td class="label">Min Deposit</td><td class="value">₹100</td></tr>
+      <tr><td class="label">Min Withdrawal</td><td class="value">₹110</td></tr>
+      <tr><td class="label">Min Bet</td><td class="value">₹1</td></tr>
+      <tr><td class="label">Withdrawal Fee</td><td class="value">₹0</td></tr>
+      <tr><td class="label">Customer Care</td><td class="value">24/7</td></tr>
+      <tr><td class="label">Popular Games</td><td class="value">Wingo, Mines, Aviator, Chicken Road, goal, Coin Flif, Vortex, Dragon Tiger, plinko, Etc.</td></tr>
+       <!doctype html>
+    </table>
+
+    <div class="actions">
+      <a class="btn primary" href="https://www.rajaparty2.com/#/register?invitationCode=55424116012" target="_blank">Register Now</a>
+      <a class="btn secondary" href="https://www.rajaparty2.com/#/loginregister?invitationCode=55424116012" target="_blank">Open Game</a>
+    </div>
+  <br>
+<!-- GAME 2 -->
+<div class="game">
+  <a class="image"
+     style="--img:url('51gamepage.png')"
+     href="https://www.51gamek.com/#/register?invitationCode=75516113971"
+     target="_blank">
+    <img src="51gamepage.png" alt="51 GAME">
+  </a>
+
+  <div class="content">
+    <h2>51 GAME</h2>
+    <table>
+      <tr><td class="label">Invitation Code</td><td class="value">75516113971</td></tr>
+      <tr><td class="label">Signup Bonus</td><td class="value">Upto ₹50</td></tr>
+      <tr><td class="label">Min Deposit</td><td class="value">₹100</td></tr>
+      <tr><td class="label">Min Withdrawal</td><td class="value">₹110</td></tr>
+      <tr><td class="label">Min Bet</td><td class="value">₹1</td></tr>
+      <tr><td class="label">Withdrawal Fee</td><td class="value">₹0</td></tr>
+      <tr><td class="label">Withdrawal Method</td><td class="value">UPI, Bank, USDT</td></tr>
+      <tr><td class="label">Customer Care</td><td class="value">24/7</td></tr>
+      <tr><td class="label">Popular Games</td><td class="value">Wingo, Mines, Aviator, Chicken Road, goal, Coin Flif, Vortex, Dragon Tiger, plinko, Etc.</td></tr>
+       <!doctype html>
+    </table>
+
+    <div class="actions">
+      <a class="btn primary" href="https://www.51gamek.com/#/register?invitationCode=75516113971" target="_blank">Register Now</a>
+      <a class="btn secondary" href="https://www.51gamek.com/#/loginregister?invitationCode=75516113971" target="_blank">Open Game</a>
+    </div>
+    <br>
+
+     <!-- GAME 3 -->
+<div class="game">
+  <a class="image"
+     style="--img:url('rajaluckpage.png')"
+     href="http://nrpby77662.rajaluckelite.com/#/wheelspinevent?invitationCode=NrPBY77662"
+     target="_blank">
+    <img src="rajaluckpage.png" alt="RAJA GAME">
+  </a>
+
+  <div class="content">
+    <h2>RAJA LUCK</h2>
+    <table>
+      <tr><td class="label">Invitation Code</td><td class="value">NrPBY77662</td></tr>
+      <tr><td class="label">Signup Bonus</td><td class="value">Upto ₹38</td></tr>
+      <tr><td class="label">Min Deposit</td><td class="value">₹100</td></tr>
+      <tr><td class="label">Min Withdrawal</td><td class="value">₹110</td></tr>
+      <tr><td class="label">Min Bet</td><td class="value">₹1</td></tr>
+      <tr><td class="label">Withdrawal Fee</td><td class="value">₹0</td></tr>
+      <tr><td class="label">Customer Care</td><td class="value">24/7</td></tr>
+      <tr><td class="label">Popular Games</td><td class="value">Wingo, Mines, Aviator, Chicken Road, goal, Coin Flif, Vortex, Dragon Tiger, plinko, Etc.</td></tr>
+       <!doctype html>
+    </table>
+
+    <div class="actions">
+      <a class="btn primary" href="http://nrpby77662.rajaluckelite.com/#/wheelspinevent?invitationCode=NrPBY77662" target="_blank">Register Now</a>
+      <a class="btn secondary" href="http://nrpby77662.rajaluckelite.com/#/wheelspinevent?invitationCode=NrPBY77662" target="_blank">Open Game</a>
+    </div>
+  <br>
+  
+  </div>
+</div>
+
+<div class="divider"><span></span></div>
+
+
+
+<footer>
+  <button onclick="openDisclaimer()">Disclaimer</button>
+</footer>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="modal" id="disclaimer">
+  <div class="box">
+    <h3>Disclaimer</h3>
+    <p>
+      This page is for informational purposes only. We do not promote or recommend gambling or betting games.
+      This page is created only because some users repeatedly requested game links.
+    </p>
+    <p>
+      All games involve financial risk. If you do not play such games, please exit immediately.
+      By continuing, you confirm that you are visiting and playing at your own risk.
+      Any loss or damage caused will be your own responsibility.
+    </p>
+    <button onclick="closeDisclaimer()">Close</button>
+  </div>
+</div>
+
+<script>
+function openDisclaimer(){
+  document.getElementById("disclaimer").classList.add("active");
+}
+function closeDisclaimer(){
+  document.getElementById("disclaimer").classList.remove("active");
+}
+</script>
+</body>
+</html>
